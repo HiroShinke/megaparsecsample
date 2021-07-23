@@ -18,7 +18,10 @@ expr :: Parser Expr
 expr = chainl1 term exprOp ExprTerm
 
 term :: Parser Term
-term = chainl1 num  termOp TermNumber
+term = chainl1 atom termOp TermAtom
+
+atom =  TermNumber <$> num
+    <|> TermExpr <$> ( char '(' *> expr <* char ')' )
 
 num :: Parser Number
 num = L.lexeme scn $ Number <$> L.decimal
@@ -29,7 +32,7 @@ exprOp = L.lexeme scn $ choice
   , (\a b -> Expr a Sub b) <$ char '-'
   ]
 
-termOp :: Parser (Term -> Number -> Term)
+termOp :: Parser (Term -> Atom -> Term)
 termOp = L.lexeme scn $ choice
   [ (\a b -> Term a Mul b) <$ char '*'
   , (\a b -> Term a Div b) <$ char '/'
