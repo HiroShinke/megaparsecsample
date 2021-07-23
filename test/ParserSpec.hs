@@ -17,16 +17,16 @@ spec =
   it "basic" $ do
     let r = parse expr "" (pack "1")
     case r of
-      (Right x) -> x `shouldBe` (ExprTerm (TermAtom (TermNumber (Number 1))))
+      (Right x) -> x `shouldBe` (ExprTerm (TermFactor (FactorNumber (Number 1))))
 
   it "production" $ do
     let r = parse expr "" (pack "1*2")
     case r of
       (Right x) -> x `shouldBe` (ExprTerm
                                   (Term
-                                    (TermAtom (TermNumber (Number 1)))
+                                    (TermFactor (FactorNumber (Number 1)))
                                     Mul
-                                    (TermNumber (Number 2))
+                                    (FactorNumber (Number 2))
                                   ))
   it "production2" $ do
     let r = parse expr "" (pack "1*2*3")
@@ -34,12 +34,12 @@ spec =
       (Right x) -> x `shouldBe` (ExprTerm
                                   (Term
                                     (Term
-                                     (TermAtom (TermNumber (Number 1)))
+                                     (TermFactor (FactorNumber (Number 1)))
                                      Mul
-                                     (TermNumber (Number 2))
+                                     (FactorNumber (Number 2))
                                     )
                                     Mul
-                                    (TermNumber (Number 3))
+                                    (FactorNumber (Number 3))
                                   ))
 
   it "addition" $ do
@@ -47,22 +47,22 @@ spec =
     case r of
       (Right x) -> x `shouldBe` (Expr
                                   (ExprTerm
-                                    (TermAtom (TermNumber (Number 1))))
+                                    (TermFactor (FactorNumber (Number 1))))
                                   Add
-                                  (TermAtom (TermNumber (Number 2)))
+                                  (TermFactor (FactorNumber (Number 2)))
                                 )
 
   it "TermExpr" $ do
     let r = parse expr "" (pack "(1+2)")
     case r of
       (Right x) -> x `shouldBe` (ExprTerm
-                                 (TermAtom
-                                  (TermExpr
+                                 (TermFactor
+                                  (FactorExpr
                                    (Expr
                                     (ExprTerm
-                                     (TermAtom (TermNumber (Number 1))))
+                                     (TermFactor (FactorNumber (Number 1))))
                                     Add
-                                    (TermAtom (TermNumber (Number 2)))
+                                    (TermFactor (FactorNumber (Number 2)))
                                    ))
                                  ))
                    

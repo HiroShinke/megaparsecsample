@@ -6,12 +6,12 @@ data Expr
   | ExprTerm Term
   deriving (Show,Eq)
 data Term
-  = Term Term TermOp Atom
-  | TermAtom Atom
+  = Term Term TermOp Factor
+  | TermFactor Factor
   deriving (Show,Eq)
-data Atom
-  = TermNumber Number
-  | TermExpr   Expr
+data Factor
+  = FactorNumber Number
+  | FactorExpr   Expr
   deriving (Show,Eq)
 data Number = Number Integer deriving (Show,Eq)
 
